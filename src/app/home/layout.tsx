@@ -1,6 +1,7 @@
 import Header from "@/components/ui/header";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { PrimeReactProvider } from "primereact/api";
 import { ReactNode } from "react";
 
@@ -11,10 +12,10 @@ interface HomeLayoutProps {
 const HomeLayout = async ({ children }: HomeLayoutProps) => {
   const session = await getServerSession(authOptions);
 
-  /*  if (!session) {
+  if (!session) {
     return redirect("/");
   }
- */
+
   return (
     <div className="mx-auto w-full max-w-[900px]">
       <Header />
