@@ -1,3 +1,4 @@
+import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -17,10 +18,12 @@ const HomeLayout = async ({ children }: HomeLayoutProps) => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[900px]">
+    <div className="mx-auto w-full max-w-[1200px]">
       <Header />
       <PrimeReactProvider>
-        <div className="px-4 py-10">{children}</div>
+        <div className="px-4 py-10">
+          {children} <Footer />
+        </div>
       </PrimeReactProvider>
     </div>
   );

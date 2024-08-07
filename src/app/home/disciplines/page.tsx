@@ -1,6 +1,14 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Loading from "@/components/ui/loading";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -11,9 +19,12 @@ import {
 } from "@/components/ui/table";
 import usePaginator from "@/hooks/usePaginator";
 import axios from "axios";
+import { Download } from "lucide-react";
 import Image from "next/image";
 import { Paginator } from "primereact/paginator";
 import { useEffect, useState, useTransition } from "react";
+import * as XLSX from "xlsx";
+
 interface DisciplinesProps {
   id: string;
   name: string;
@@ -25,6 +36,7 @@ const Dispiplines = () => {
   const [isPending, startTransition] = useTransition();
   const [inputSearch, setInputSearch] = useState("");
   const { first, rows, onPageChange } = usePaginator();
+  const [ordenedBy, setOrdenedBy] = useState("az");
 
   useEffect(() => {
     const fetchDisciplines = async () => {
@@ -42,23 +54,68 @@ const Dispiplines = () => {
     fetchDisciplines();
   }, []);
 
-  const filteredDisciplines = disciplines.filter((discipline) =>
-    discipline.name
-      .toLocaleLowerCase()
-      .includes(inputSearch.toLocaleLowerCase()),
-  );
+  const filteredDisciplines = disciplines
+    .filter((discipline) => {
+      const disciplineMatch = discipline.name
+        .toLocaleLowerCase()
+        .includes(inputSearch.toLocaleLowerCase());
+
+      return disciplineMatch;
+    })
+    .sort((a, b) => {
+      switch (ordenedBy) {
+        case "az":
+          return a.name.localeCompare(b.name);
+        case "za":
+          return b.name.localeCompare(a.name);
+        default:
+          return 0;
+      }
+    });
+
+  const handleExport = () => {
+    const ws_data = [["id", "nome", "imagem"]];
+
+    filteredDisciplines.forEach((discipline) => {
+      ws_data.push([
+        String(discipline.id),
+        String(discipline.name),
+        String(discipline.pictogram_url),
+      ]);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "disciplines");
+    XLSX.writeFile(wb, "disciplines.xlsx");
+  };
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[900px] space-y-8">
-      <Input
-        placeholder="Wrestling"
-        value={inputSearch}
-        onChange={(e) => setInputSearch(e.target.value)}
-      />
+    <div className="section">
+      <div className="flex items-center gap-4">
+        <Input
+          placeholder="Wrestling"
+          value={inputSearch}
+          onChange={(e) => setInputSearch(e.target.value)}
+        />
+
+        <Select value={ordenedBy} onValueChange={setOrdenedBy}>
+          <SelectTrigger className="hidden w-[200px] lg:flex">
+            <SelectValue placeholder="Ordenar por:" />
+            <SelectContent>
+              <SelectItem value="az">Alfabética A-Z</SelectItem>
+              <SelectItem value="za">Alfabética Z-A</SelectItem>
+            </SelectContent>
+          </SelectTrigger>
+        </Select>
+
+        <Button onClick={handleExport} variant={"outline"}>
+          <Download size={20} />
+        </Button>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]"></TableHead>
             <TableHead className="w-[100px]">Pictograma</TableHead>
             <TableHead>ID</TableHead>
             <TableHead>Nome</TableHead>
@@ -69,15 +126,12 @@ const Dispiplines = () => {
             .slice(first, first + rows)
             .map((discipline, index) => (
               <TableRow key={discipline.id}>
-                <TableCell className="font-bold">
-                  {String(index + 1).padStart(2, "0")}
-                </TableCell>
                 <TableCell>
                   {" "}
                   {isPending ? (
                     <Loading />
                   ) : (
-                    <div className="rounded-md bg-zinc-50 p-2">
+                    <div className="rounded-md bg-white p-2">
                       <Image
                         className="h-auto w-auto"
                         width={60}
