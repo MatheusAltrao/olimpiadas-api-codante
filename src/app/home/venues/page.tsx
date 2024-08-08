@@ -108,41 +108,34 @@ const Venues = () => {
           <Download size={20} />
         </Button>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Nome</TableHead>
-            <TableHead className="max-w-[400px]">URL</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredVenues
-            .slice(first, first + rows)
-            .map((discipline, index) => (
-              <TableRow key={discipline.id}>
-                <TableCell>{discipline.id}</TableCell>
-                <TableCell>{discipline.name}</TableCell>
-                <TableCell>
-                  <Link
-                    className="underline-offset-8 opacity-70 hover:underline hover:opacity-100"
-                    href={discipline.url}
-                  >
-                    <span>{discipline.url}</span>
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-
-      {filteredVenues.length > 0 && (
-        <Paginator
-          first={first}
-          rows={rows}
-          totalRecords={filteredVenues.length}
-          onPageChange={onPageChange}
-        />
+      {!isPending && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Nome</TableHead>
+              <TableHead className="max-w-[400px]">URL</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredVenues
+              .slice(first, first + rows)
+              .map((discipline, index) => (
+                <TableRow key={discipline.id}>
+                  <TableCell>{discipline.id}</TableCell>
+                  <TableCell>{discipline.name}</TableCell>
+                  <TableCell>
+                    <Link
+                      className="underline-offset-8 opacity-70 hover:underline hover:opacity-100"
+                      href={discipline.url}
+                    >
+                      <span>{discipline.url}</span>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
       )}
 
       {isPending && (
@@ -150,6 +143,15 @@ const Venues = () => {
           {" "}
           <Loading />
         </div>
+      )}
+
+      {filteredVenues.length > 0 && !isPending && (
+        <Paginator
+          first={first}
+          rows={rows}
+          totalRecords={filteredVenues.length}
+          onPageChange={onPageChange}
+        />
       )}
 
       {inputSearch.length != 0 && filteredVenues.length == 0 && (

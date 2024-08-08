@@ -27,7 +27,8 @@ import Image from "next/image";
 import { Paginator } from "primereact/paginator";
 import { useEffect, useState, useTransition } from "react";
 import * as XLSX from "xlsx";
-interface countriesProps {
+export interface CountriesProps {
+  id: string;
   rank: number;
   name: string;
   continent: string;
@@ -39,7 +40,7 @@ interface countriesProps {
 }
 
 const Ranking = () => {
-  const [countries, setCountries] = useState<countriesProps[]>([]);
+  const [countries, setCountries] = useState<CountriesProps[]>([]);
   const [isPending, startTransition] = useTransition();
   const [inputSearch, setInputSearch] = useState("");
   const [filter, setFilter] = useState("gold");
@@ -165,6 +166,7 @@ const Ranking = () => {
           value={inputSearch}
           onChange={(e) => setInputSearch(e.target.value)}
         />
+
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="hidden w-[180px] lg:flex">
             <SelectValue placeholder="Ordenar por" />
@@ -204,7 +206,7 @@ const Ranking = () => {
         </Button>
       </div>
 
-      {previewMode == "table" && (
+      {previewMode == "table" && !isPending && (
         <div className="space-y-4">
           <Table>
             <TableHeader>
@@ -254,20 +256,20 @@ const Ranking = () => {
             </TableBody>
           </Table>
 
-          {filteredCountries.length > 0 && (
+          {isPending && (
+            <div className="flex items-center justify-center">
+              {" "}
+              <Loading />
+            </div>
+          )}
+
+          {filteredCountries.length > 0 && !isPending && (
             <Paginator
               first={first}
               rows={rows}
               totalRecords={filteredCountries.length}
               onPageChange={onPageChange}
             />
-          )}
-
-          {isPending && (
-            <div className="flex items-center justify-center">
-              {" "}
-              <Loading />
-            </div>
           )}
 
           {inputSearch.length != 0 && filteredCountries.length == 0 && (

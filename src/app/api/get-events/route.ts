@@ -6,6 +6,8 @@ export async function GET(request: Request) {
   const page = searchParams.get("page") || 1;
   const gender = searchParams.get("gender") || "";
   const date = searchParams.get("date") || "";
+  const country = searchParams.get("country") || "";
+
   try {
     const response = await axios.get(
       `https://apis.codante.io/olympic-games/events`,
@@ -14,6 +16,7 @@ export async function GET(request: Request) {
           page,
           gender,
           date,
+          country,
         },
       },
     );
