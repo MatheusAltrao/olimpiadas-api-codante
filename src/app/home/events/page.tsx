@@ -131,7 +131,7 @@ const Events = () => {
         </Select>
 
         <Popover>
-          <PopoverTrigger>
+          <PopoverTrigger asChild>
             <Button className="gap-2" variant={"outline"}>
               {date ? (
                 format(date, "dd/MM/yyyy")

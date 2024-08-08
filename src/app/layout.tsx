@@ -7,8 +7,15 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Olímpiada",
+  title: "Olímpiadas",
   description: "Fique por dentro das novidades das olímpiadas ",
+  icons: {
+    icon: [
+      {
+        url: "/favicon.jpeg",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
