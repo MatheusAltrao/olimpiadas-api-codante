@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ChromeIcon } from "lucide-react";
+import { ChromeIcon, Computer } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import Loading from "./loading";
@@ -24,16 +24,22 @@ const HeroSection = () => {
         </p>
 
         {status == "unauthenticated" && (
-          <Button onClick={handleSignInClick} variant="outline">
-            <ChromeIcon className="mr-2 h-5 w-5" />
+          <Button
+            className="gap-2"
+            onClick={handleSignInClick}
+            variant="outline"
+          >
             Entrar com Google
+            <ChromeIcon size={20} />
           </Button>
         )}
 
         {status == "authenticated" && (
           <div>
             <Link href={"/home/ranking"}>
-              <Button variant="outline">Acessar métricas</Button>
+              <Button variant="outline" className="gap-2">
+                Acessar métricas <Computer size={20} />
+              </Button>
             </Link>
           </div>
         )}
@@ -41,7 +47,7 @@ const HeroSection = () => {
         {status == "loading" && (
           <Button className="gap-2" variant="outline">
             {" "}
-            <Loading /> Carregando
+            Carregando <Loading />
           </Button>
         )}
       </div>

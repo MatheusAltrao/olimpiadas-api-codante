@@ -1,7 +1,14 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import Loading from "@/components/ui/loading";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -9,10 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { disciplinesList } from "@/helpers/disciplines";
 import axios from "axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { CalendarCheck } from "lucide-react";
 import Image from "next/image";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { useEffect, useState, useTransition } from "react";
@@ -49,8 +56,8 @@ const Events = () => {
   const [rows, setRows] = useState(10);
   const [totalRecords, setTotalRecords] = useState(0);
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState("all");
-  const [ordenedBy, setOrdenedBy] = useState("F");
+  const [ordenedBy, setOrdenedBy] = useState("M");
+  const [date, setDate] = useState<Date | undefined>(new Date());
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -58,8 +65,8 @@ const Events = () => {
         try {
           const query = new URLSearchParams({
             page: page.toString(),
-            country: inputSearch || "", // Adiciona a busca por país
-            discipline: filter === "all" ? "" : filter, // Adiciona a filtragem por disciplina
+            country: inputSearch || "",
+            gender: ordenedBy || "",
           }).toString();
 
           const response = await axios.get(`/api/get-events?${query}`);
@@ -77,39 +84,21 @@ const Events = () => {
     };
 
     fetchEvents();
-  }, [page, inputSearch, filter]);
+  }, [page, inputSearch, ordenedBy]);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setPage(event.page + 1);
   };
 
-  const filteredEvents = events
-    .filter((event) => {
-      const venueMatches = event.venue_name
+  const filteredEvents = events.filter(
+    (event) =>
+      event.venue_name
         .toLocaleLowerCase()
-        .includes(inputSearch.toLocaleLowerCase());
-
-      const disciplineMatches =
-        filter.toLocaleLowerCase() === "all"
-          ? true
-          : event.discipline_name.toLocaleLowerCase() ===
-            filter.toLocaleLowerCase();
-
-      return venueMatches && disciplineMatches;
-    })
-    .sort((a, b) => {
-      switch (ordenedBy) {
-        case "M":
-          return a.gender_code === "M" ? -1 : b.gender_code === "M" ? 1 : 0;
-        case "W":
-          return a.gender_code === "W" ? -1 : b.gender_code === "W" ? 1 : 0;
-
-        default:
-          return 0;
-      }
-    });
-
-  console.log(events);
+        .includes(inputSearch.toLocaleLowerCase()) ||
+      event.discipline_name
+        .toLocaleLowerCase()
+        .includes(inputSearch.toLocaleLowerCase()),
+  );
 
   return (
     <div className="space-y-8">
@@ -125,23 +114,27 @@ const Events = () => {
             <SelectValue placeholder="Ordenar por:" />
             <SelectContent>
               <SelectItem value="M">Masculino</SelectItem>
-              <SelectItem value="F">Feminino</SelectItem>
+              <SelectItem value="W">Feminino</SelectItem>
             </SelectContent>
           </SelectTrigger>
         </Select>
-        <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="hidden w-[200px] lg:flex">
-            <SelectValue placeholder="Modalidades" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={"all"}>Todas</SelectItem>
-            {disciplinesList.map((discipline, index) => (
-              <SelectItem key={index} value={discipline}>
-                {discipline}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+
+        <Popover>
+          <PopoverTrigger>
+            <Button className="gap-2" variant={"outline"}>
+              Calendário <CalendarCheck size={20} />{" "}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="flex w-full max-w-[400px] items-center justify-center">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              className="w-full"
+              locale={ptBR}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {filteredEvents.map((event) => {

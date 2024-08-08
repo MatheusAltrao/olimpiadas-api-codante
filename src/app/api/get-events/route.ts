@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const page = searchParams.get("page") || 1;
-  const country = searchParams.get("country") || "";
-  const discipline = searchParams.get("discipline") || "";
+  const gender = searchParams.get("gender") || ""; // Captura o parâmetro de gênero
 
   try {
     const response = await axios.get(
@@ -13,8 +12,7 @@ export async function GET(request: Request) {
       {
         params: {
           page: page,
-          country: country,
-          discipline: discipline,
+          gender: gender, // Inclui o filtro de gênero na requisição
         },
       },
     );
