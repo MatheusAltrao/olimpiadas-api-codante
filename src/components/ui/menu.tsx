@@ -46,8 +46,10 @@ const Menu = () => {
 
       <SheetContent className="flex flex-col gap-8">
         <SheetHeader className="space-y-8">
-          <SheetTitle>Menu</SheetTitle>
-          <SheetDescription>Mude a sua sessão por aqui.</SheetDescription>
+          <div>
+            <SheetTitle>Menu</SheetTitle>
+            <SheetDescription>Mude a sua sessão por aqui.</SheetDescription>
+          </div>
           <div>
             {status == "loading" && <Loading />}
 

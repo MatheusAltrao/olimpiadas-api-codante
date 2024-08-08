@@ -1,6 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import Loading from "@/components/ui/loading";
 import {
   Tooltip,
   TooltipContent,
@@ -20,8 +21,6 @@ interface CompetitionDetailsProps {
 const CompetitionDetails = ({ params }: CompetitionDetailsProps) => {
   const [event, setEvent] = useState<EventsProps>();
   const [isPending, startTransition] = useTransition();
-
-  console.log(event);
 
   useEffect(() => {
     const fetchDisciplines = async () => {
@@ -43,6 +42,7 @@ const CompetitionDetails = ({ params }: CompetitionDetailsProps) => {
 
   return (
     <div className="space-y-8">
+      {isPending && <Loading />}
       <header>
         <div className="flex items-end gap-2">
           <h1 className="text-4xl font-bold">{event?.discipline_name}</h1>
@@ -54,9 +54,12 @@ const CompetitionDetails = ({ params }: CompetitionDetailsProps) => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4">
         {event?.competitors.map((competitors) => (
-          <Card className="w-full max-w-sm transition-colors hover:bg-border">
+          <Card
+            key={competitors.position}
+            className="w-full transition-colors hover:bg-border"
+          >
             <div className="flex items-center gap-4 p-4">
               <Image
                 width={80}

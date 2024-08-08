@@ -40,7 +40,7 @@ const MatchupCard = ({ event, competitors }: MatchupCardProps) => {
     <div
       onClick={() => handleRedirectToCompetitionDetails(event.id)}
       key={event.id}
-      className="flex w-full max-w-md cursor-pointer flex-col gap-4 rounded-lg border bg-background p-6 transition-colors hover:bg-border"
+      className="flex w-full cursor-pointer flex-col gap-4 rounded-lg border bg-background p-6 transition-colors hover:bg-border"
     >
       <div className="flex flex-wrap items-center justify-center gap-8">
         {competitors.map((team, index) => {
