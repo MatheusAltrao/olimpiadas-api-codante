@@ -98,7 +98,7 @@ const GroupCompetitionCard = ({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="flex flex-col items-center justify-center gap-2">
             <div>
               {event.gender_code == "M" && <Badge> Masculino</Badge>}
               {event.gender_code == "W" && <Badge> Feminino</Badge>}

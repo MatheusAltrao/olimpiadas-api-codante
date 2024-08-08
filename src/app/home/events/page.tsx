@@ -159,7 +159,7 @@ const Events = () => {
           <SelectContent>
             <SelectItem value="all">Todos</SelectItem>
             {countries.map((country) => (
-              <SelectItem value={country.id}>
+              <SelectItem key={country.id} value={country.id}>
                 <div className="flex items-center gap-2">
                   <Image
                     width={30}
