@@ -32,42 +32,52 @@ const MatchupCard = ({ event, competitors }: MatchupCardProps) => {
 
   const router = useRouter();
 
-  /*  const handleRedirectToCompetitionDetails = (id: number) => {
+  const handleRedirectToCompetitionDetails = (id: number) => {
     return router.push(`/home/events/${id}`);
-  }; */
+  };
 
   return (
     <div
+      onClick={() => handleRedirectToCompetitionDetails(event.id)}
       key={event.id}
       className="flex w-full max-w-md flex-col gap-4 rounded-lg border bg-background p-6 transition-colors hover:bg-border"
     >
       <div className="flex flex-wrap items-center justify-center gap-8">
-        {competitors.map((team, index) => (
-          <div key={index} className={`flex items-center justify-center gap-4`}>
-            {team.country_flag_url ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Image
-                      width={40}
-                      height={40}
-                      className={`h-auto w-auto ${team.result_winnerLoserTie == "L" && "opacity-50"}`}
-                      src={team.country_flag_url}
-                      alt={team.country_id}
-                      priority
-                      style={{
-                        objectFit: "cover",
-                      }}
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent>{team.country_id}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              <Loading />
-            )}
-          </div>
-        ))}
+        {competitors.map((team, index) => {
+          if (!team.country_id || !team.country_flag_url) {
+            return null; // Omite competidores com dados incompletos
+          }
+
+          return (
+            <div
+              key={index}
+              className={`flex items-center justify-center gap-4`}
+            >
+              {team.country_flag_url ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Image
+                        width={40}
+                        height={40}
+                        className={`h-auto w-auto ${team.result_winnerLoserTie == "L" && "opacity-50"}`}
+                        src={team.country_flag_url}
+                        alt={team.country_id}
+                        priority
+                        style={{
+                          objectFit: "cover",
+                        }}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>{team.country_id}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Loading />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div className="flex flex-col items-center gap-2">
@@ -87,26 +97,42 @@ const MatchupCard = ({ event, competitors }: MatchupCardProps) => {
             </div>
           </div>
 
-          <div>
-            {event.gender_code == "M" && <Badge> Masculino</Badge>}
-            {event.gender_code == "W" && <Badge> Feminino</Badge>}
-            {event.gender_code == "X" && <Badge> Outro</Badge>}
-            {event.gender_code == "O" && <Badge> Outro</Badge>}
+          <div className="space-y-2">
+            <div>
+              {event.gender_code == "M" && <Badge> Masculino</Badge>}
+              {event.gender_code == "W" && <Badge> Feminino</Badge>}
+              {event.gender_code == "X" && <Badge> Outro</Badge>}
+              {event.gender_code == "O" && <Badge> Outro</Badge>}
+            </div>
+
+            <div>
+              {event.status == "Finished" && <Badge>Finalizado</Badge>}
+              {event.status == "Scheduled" && (
+                <Badge variant={"warning"}> Agendado</Badge>
+              )}
+
+              {event.status == "Cancelled" && (
+                <Badge variant={"destructive"}> Cancelado</Badge>
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-2 font-bold">
-          <span
-            className={`text-2xl ${team1.result_winnerLoserTie == "L" && "opacity-50"}`}
-          >
-            {team1.result_mark}
-          </span>
-          <span className="text-xl"> X</span>
-          <span
-            className={`text-2xl ${team2.result_winnerLoserTie == "L" && "opacity-50"}`}
-          >
-            {team2.result_mark}
-          </span>
-        </div>
+
+        {event.status == "Finished" && (
+          <div className="flex items-center justify-center gap-2 font-bold">
+            <span
+              className={`text-2xl ${team1.result_winnerLoserTie == "L" && "opacity-50"}`}
+            >
+              {team1.result_mark}
+            </span>
+            <span className="text-xl"> X</span>
+            <span
+              className={`text-2xl ${team2.result_winnerLoserTie == "L" && "opacity-50"}`}
+            >
+              {team2.result_mark}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

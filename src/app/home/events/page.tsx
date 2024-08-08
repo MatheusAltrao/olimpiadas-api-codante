@@ -99,6 +99,8 @@ const Events = () => {
     setPage(event.page + 1);
   };
 
+  console.log(events);
+
   const filteredEvents = events.filter(
     (event) =>
       event.venue_name
@@ -163,9 +165,9 @@ const Events = () => {
             result_mark: competitor.result_mark,
           }));
 
-          if (event.status !== "Finished") {
+          /* if (event.status !== "Finished") {
             return null;
-          }
+          } */
 
           if (competitors.length === 2) {
             return (
