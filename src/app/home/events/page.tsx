@@ -1,5 +1,6 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
+import GroupCompetitionCard from "@/components/cards/group-competition-card";
+import MatchupCard from "@/components/cards/matchup-card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -20,10 +21,9 @@ import axios from "axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarCheck } from "lucide-react";
-import Image from "next/image";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { useEffect, useState, useTransition } from "react";
-interface Competitor {
+export interface Competitor {
   competitor_name: string;
   country_flag_url: string;
   country_id: string;
@@ -33,7 +33,7 @@ interface Competitor {
   result_winnerLoserTie: string;
 }
 
-interface EventsProps {
+export interface EventsProps {
   competitors: Competitor[];
   id: number;
   day: string;
@@ -57,7 +57,7 @@ const Events = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [page, setPage] = useState(1);
   const [ordenedBy, setOrdenedBy] = useState("M");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -67,9 +67,18 @@ const Events = () => {
             page: page.toString(),
             country: inputSearch || "",
             gender: ordenedBy || "",
-          }).toString();
+            date: date ? format(date, "yyyy-MM-dd") : "",
+          });
 
-          const response = await axios.get(`/api/get-events?${query}`);
+          query.forEach((value, key) => {
+            if (!value) {
+              query.delete(key);
+            }
+          });
+
+          const response = await axios.get(
+            `/api/get-events?${query.toString()}`,
+          );
           const data = response.data.data;
           setEvents(data);
           setTotalRecords(response.data.meta.total);
@@ -84,7 +93,7 @@ const Events = () => {
     };
 
     fetchEvents();
-  }, [page, inputSearch, ordenedBy]);
+  }, [page, inputSearch, ordenedBy, date]);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setPage(event.page + 1);
@@ -122,7 +131,14 @@ const Events = () => {
         <Popover>
           <PopoverTrigger>
             <Button className="gap-2" variant={"outline"}>
-              Calendário <CalendarCheck size={20} />{" "}
+              {date ? (
+                format(date, "dd/MM/yyyy")
+              ) : (
+                <div className="flex items-center gap-2">
+                  {" "}
+                  Calendário <CalendarCheck size={20} />
+                </div>
+              )}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="flex w-full max-w-[400px] items-center justify-center">
@@ -147,104 +163,29 @@ const Events = () => {
             result_mark: competitor.result_mark,
           }));
 
-          if (competitors.length !== 2) {
+          if (event.status !== "Finished") {
             return null;
           }
 
-          const [team1, team2] = competitors;
+          if (competitors.length === 2) {
+            return (
+              <MatchupCard
+                key={event.id}
+                event={event}
+                competitors={competitors}
+              />
+            );
+          }
 
-          return (
-            <div
-              key={event.id}
-              className="flex w-full max-w-md flex-col gap-4 rounded-lg border bg-background p-6"
-            >
-              <div className="flex flex-row items-center justify-between">
-                <div className={`flex items-center justify-center gap-4`}>
-                  {team1.country_flag_url ? (
-                    <Image
-                      width={40}
-                      height={40}
-                      className={`h-auto w-auto ${team1.result_winnerLoserTie == "L" && "opacity-50"}`}
-                      src={team1.country_flag_url}
-                      alt={team1.country_id}
-                      priority
-                      style={{
-                        objectFit: "cover",
-                      }}
-                    />
-                  ) : (
-                    <Loading />
-                  )}
-                  <h2
-                    className={`truncate text-sm font-bold ${team1.result_winnerLoserTie == "L" && "opacity-50"}`}
-                  >
-                    {team1.country_id}
-                  </h2>
-                </div>
-                <div className={`flex flex-row items-center gap-4`}>
-                  <h2
-                    className={`truncate text-sm font-bold ${team2.result_winnerLoserTie == "L" && "opacity-50"}`}
-                  >
-                    {team2.country_id}
-                  </h2>
-                  {team2.country_flag_url ? (
-                    <Image
-                      width={40}
-                      height={40}
-                      className={`h-auto w-auto ${team2.result_winnerLoserTie == "L" && "opacity-50"}`}
-                      src={team2.country_flag_url}
-                      alt={team2.country_id}
-                      priority
-                      style={{
-                        objectFit: "cover",
-                      }}
-                    />
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex flex-col items-center justify-center space-y-2">
-                  <div className="text-center text-sm text-muted-foreground">
-                    <div>
-                      <span className="">
-                        {" "}
-                        {event.venue_name} - {event.discipline_name}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-sm text-muted-foreground">
-                        {format(event.day, "EEEE, dd 'de'  MMMM 'de' yyyy  ", {
-                          locale: ptBR,
-                        })}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div>
-                    {event.gender_code == "M" && <Badge> Masculino</Badge>}
-                    {event.gender_code == "W" && <Badge> Feminino</Badge>}
-                    {event.gender_code == "X" && <Badge> Outro</Badge>}
-                    {event.gender_code == "O" && <Badge> Outro</Badge>}
-                  </div>
-                </div>
-                <div className="flex items-center justify-center gap-2 font-bold">
-                  <span
-                    className={`text-4xl ${team1.result_winnerLoserTie == "L" && "opacity-50"}`}
-                  >
-                    {team1.result_mark}
-                  </span>
-                  <span className="text-2xl"> X</span>
-                  <span
-                    className={`text-4xl ${team2.result_winnerLoserTie == "L" && "opacity-50"}`}
-                  >
-                    {team2.result_mark}
-                  </span>
-                </div>
-              </div>
-            </div>
-          );
+          if (competitors.length > 2) {
+            return (
+              <GroupCompetitionCard
+                key={event.id}
+                event={event}
+                competitors={competitors}
+              />
+            );
+          }
         })}
       </div>
 

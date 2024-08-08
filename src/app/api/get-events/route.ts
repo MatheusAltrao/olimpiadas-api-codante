@@ -4,15 +4,16 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const page = searchParams.get("page") || 1;
-  const gender = searchParams.get("gender") || ""; // Captura o parâmetro de gênero
-
+  const gender = searchParams.get("gender") || "";
+  const date = searchParams.get("date") || "";
   try {
     const response = await axios.get(
       `https://apis.codante.io/olympic-games/events`,
       {
         params: {
-          page: page,
-          gender: gender, // Inclui o filtro de gênero na requisição
+          page,
+          gender,
+          date,
         },
       },
     );
