@@ -38,7 +38,7 @@ const CompetitionDetails = ({ params }: CompetitionDetailsProps) => {
     };
 
     fetchDisciplines();
-  }, []);
+  }, [params.id]);
 
   return (
     <div className="space-y-8">
