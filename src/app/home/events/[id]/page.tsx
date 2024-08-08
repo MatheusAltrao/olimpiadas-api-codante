@@ -54,77 +54,89 @@ const CompetitionDetails = ({ params }: CompetitionDetailsProps) => {
         </div>
       </header>
 
+      {/* 
+    
+}
+
+*/}
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        {event?.competitors.map((competitors) => (
-          <Card
-            key={competitors.position}
-            className="w-full transition-colors hover:bg-border"
-          >
-            <div className="flex items-center gap-4 p-4">
-              <Image
-                width={80}
-                height={80}
-                className={`h-auto w-auto`}
-                src={competitors.country_flag_url}
-                alt={competitors.country_id}
-                priority
-                style={{
-                  objectFit: "cover",
-                }}
-              />
+        {event?.competitors.map((competitors) => {
+          if (!competitors.competitor_name || !competitors.country_flag_url) {
+            return null;
+          }
 
-              <div className="flex-1 space-y-1">
-                <div className="flex items-center justify-between">
-                  <h3 className="max-w-[180px] truncate font-medium">
-                    {competitors.competitor_name}
-                  </h3>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <ListOrdered size={20} />
-                        </TooltipTrigger>
-                        <TooltipContent className="opacity-100">
-                          <p>Posição do atleta no ranking</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+          return (
+            <Card
+              key={competitors.position}
+              className="w-full transition-colors hover:bg-border"
+            >
+              <div className="flex items-center gap-4 p-4">
+                <Image
+                  width={80}
+                  height={80}
+                  className={`h-auto w-auto`}
+                  src={competitors.country_flag_url}
+                  alt={competitors.country_id}
+                  priority
+                  style={{
+                    objectFit: "cover",
+                  }}
+                />
 
-                    <span>{competitors.position + 1}</span>
+                <div className="flex-1 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <h3 className="max-w-[180px] truncate font-medium">
+                      {competitors.competitor_name}
+                    </h3>
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <ListOrdered size={20} />
+                          </TooltipTrigger>
+                          <TooltipContent className="opacity-100">
+                            <p>Posição do atleta no ranking</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+
+                      <span>{competitors.position + 1}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-sm">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <GoalIcon className="opacity-60" size={20} />
-                        </TooltipTrigger>
-                        <TooltipContent className="opacity-100">
-                          <p>Pontuação</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <GoalIcon className="opacity-60" size={20} />
+                          </TooltipTrigger>
+                          <TooltipContent className="opacity-100">
+                            <p>Pontuação</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
 
-                    <span className="opacity-60">
-                      {competitors.result_mark}
-                    </span>
+                      <span className="opacity-60">
+                        {competitors.result_mark}
+                      </span>
+                    </div>
+
+                    {competitors.result_winnerLoserTie == "W" && (
+                      <Badge variant={"default"}>Venceu</Badge>
+                    )}
+                    {competitors.result_winnerLoserTie == "L" && (
+                      <Badge variant={"destructive"}>Perdeu</Badge>
+                    )}
+                    {competitors.result_winnerLoserTie == "T" && (
+                      <Badge variant={"outline"}>Empate</Badge>
+                    )}
                   </div>
-
-                  {competitors.result_winnerLoserTie == "W" && (
-                    <Badge variant={"default"}>Venceu</Badge>
-                  )}
-                  {competitors.result_winnerLoserTie == "L" && (
-                    <Badge variant={"destructive"}>Perdeu</Badge>
-                  )}
-                  {competitors.result_winnerLoserTie == "T" && (
-                    <Badge variant={"outline"}>Empate</Badge>
-                  )}
                 </div>
               </div>
-            </div>
-          </Card>
-        ))}
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

@@ -62,7 +62,7 @@ const Events = () => {
   const [date, setDate] = useState<Date | undefined>();
   const [countries, setCountries] = useState<CountriesProps[]>([]);
   const [filterByCountry, setFilterByCountry] = useState("");
-  console.log(filterByCountry);
+  console.log(events);
 
   useEffect(() => {
     const fetchCountries = async () => {

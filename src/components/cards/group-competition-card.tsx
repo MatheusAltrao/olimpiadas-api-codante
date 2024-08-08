@@ -6,11 +6,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { fixDayInEvents } from "@/helpers/fix-day-in-events";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
+import DynamicBadge from "../ui/dynamic-badge";
 import Loading from "../ui/loading";
 
 interface CompetitorsProps {
@@ -91,9 +91,7 @@ const GroupCompetitionCard = ({
             </div>
             <div>
               <span className="text-sm text-muted-foreground">
-                {format(event.day, "EEEE, dd 'de'  MMMM 'de' yyyy  ", {
-                  locale: ptBR,
-                })}
+                {fixDayInEvents(event.day)}
               </span>
             </div>
           </div>
@@ -106,16 +104,7 @@ const GroupCompetitionCard = ({
               {event.gender_code == "O" && <Badge> Outro</Badge>}
             </div>
 
-            <div>
-              {event.status == "Finished" && <Badge>Finalizado</Badge>}
-              {event.status == "Scheduled" && (
-                <Badge variant={"warning"}> Agendado</Badge>
-              )}
-
-              {event.status == "Cancelled" && (
-                <Badge variant={"destructive"}> Cancelado</Badge>
-              )}
-            </div>
+            <DynamicBadge status={event.status} />
           </div>
         </div>
       </div>
