@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Olympics 2024 Dashboard
 
-## Getting Started
+Acesse todos os detalhes dos Jogos Olímpicos de 2024, incluindo ranking de países, locais de competições e modalidades esportivas. Faça login com o Google para acessar informações detalhadas e em tempo real.
 
-First, run the development server:
+## Descrição do Projeto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Este projeto utiliza a API do Codante para fornecer informações atualizadas sobre os Jogos Olímpicos de 2024. Você pode explorar eventos ao vivo, visualizar rankings de países por medalhas, consultar a lista de modalidades esportivas e descobrir os locais das competições.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Codante
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<ul>
+<li>[API](https://apis.codante.io/olympic-games)</li>
+<li>[Documentação](https://docs.apis.codante.io/olympic-games)</li>
+</ul>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Funcionalidades da API
 
-## Learn More
+<ul>
+<li>Acesso a eventos/jogos em tempo real.</li>
+<li>Informações sobre data, países participantes, placares e status ao vivo.</li>
+<li>Listagem de modalidades esportivas.</li>
+<li>Navegue por todas as modalidades incluídas nos Jogos Olímpicos de 2024.</li>
+<li>Veja a posição dos países no ranking, incluindo contagem de medalhas de ouro, prata e bronze, além do total de medalhas.
+</li>
+<li>Lista dos locais com URLs para mais informações.
+</li>
+</ul>
 
-To learn more about Next.js, take a look at the following resources:
+## Tecnologias Utilizadas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<ul>
+<li><strong> Next.js:</strong> Framework utilizado para a construção do frontend e backend do projeto.</li>
+<li><strong> Tailwind CSS:</strong>  Biblioteca de utilitários CSS para estilização responsiva e rápida.</li>
+<li><strong> Supabase:</strong> Usado para armazenamento e gerenciamento de dados.</li>
+<li><strong> Axios:</strong> Biblioteca para realizar requisições HTTP às APIs.</li>
+<li><strong> Prisma:</strong> ORM utilizado para interações com o banco de dados.</li>
+<li><strong> Next Auth:</strong> Implementado para autenticação de usuários via Google.</li>
+<li><strong> Shadcn UI:</strong> Utilizado para compor a interface do usuário com um design limpo e funcional.</li>
+</ul>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Principais Funcionalidades
 
-## Deploy on Vercel
+<ul>
+<li><strong> Autenticação via Google:</strong> Implementada usando Next Auth.</li>
+<li><strong> Consumo das APIs:</strong> Utilização do Axios para consumo das rotas da API Codante via Next.js.</li>
+<li><strong> Listagem de Rankings:</strong> Visualização detalhada do ranking de países por medalhas.</li>
+<li><strong> Visualização de Medalhas em Gráficos:</strong> Gráficos interativos mostrando a distribuição de medalhas.</li>
+<li><strong> Listagem de Modalidades e Locais: </strong>  Exploração de todas as modalidades e locais das competições.</li>
+<li><strong>Lista de Atletas Brasileiros:</strong> Foco nos atletas brasileiros que estão competindo, com suas respectivas modalidades.</li>
+<li><strong> Tema Claro/Escuro</strong> Opção para alternar entre temas claro e escuro.</li>
+<li><strong> Responsividade </strong>   Design responsivo que se adapta a diferentes dispositivos.</li>
+<li><strong>Paginação e Filtragem de Dados</strong> Paginação nas tabelas com opções de filtragem por ordem alfabética, data e modalidade. Possibilidade de download das tabelas em formato Excel.</li>
+</ul>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contato
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<ul>
+<li><strong> Owner:</strong> Matheus Altrão</li>
+<li><strong> Email:</strong> matheusaltrao2@gmail.com</li>
+<li>[LinkedIn](https://www.linkedin.com/in/matheus-altrao/)</li>
+<li>[Portfólio](https://www.matheusaltrao.dev/)</li>
+</ul>
