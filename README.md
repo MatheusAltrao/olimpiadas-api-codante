@@ -9,8 +9,8 @@ Este projeto utiliza a API do Codante para fornecer informações atualizadas so
 ## API Codante
 
 <ul>
-<li>[API](https://apis.codante.io/olympic-games)</li>
-<li>[Documentação](https://docs.apis.codante.io/olympic-games)</li>
+  <li><strong> API:</strong> https://apis.codante.io/olympic-games</li>
+  <li><strong> Documentação:</strong> https://docs.apis.codante.io/olympic-games </li>
 </ul>
 
 ### Funcionalidades da API
@@ -57,6 +57,6 @@ Este projeto utiliza a API do Codante para fornecer informações atualizadas so
 <ul>
 <li><strong> Owner:</strong> Matheus Altrão</li>
 <li><strong> Email:</strong> matheusaltrao2@gmail.com</li>
-<li>[LinkedIn](https://www.linkedin.com/in/matheus-altrao/)</li>
-<li>[Portfólio](https://www.matheusaltrao.dev/)</li>
+<li><strong> LinkedIn: </strong> https://www.linkedin.com/in/matheus-altrao/</li>
+<li><strong> Portfólio: </strong> https://www.matheusaltrao.dev/</li>
 </ul>
