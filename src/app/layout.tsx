@@ -7,8 +7,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Olímpiadas",
-  description: "Fique por dentro das novidades das olímpiadas ",
+  title: "Olimpíadas",
+  description: "Fique por dentro das novidades das limpíadas ",
   icons: {
     icon: [
       {
