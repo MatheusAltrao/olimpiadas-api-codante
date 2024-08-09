@@ -1,4 +1,4 @@
-# Olympics 2024 Dashboard
+# Olimpíadas 2024
 
 Acesse todos os detalhes dos Jogos Olímpicos de 2024, incluindo ranking de países, locais de competições e modalidades esportivas. Faça login com o Google para acessar informações detalhadas e em tempo real.
 
