@@ -44,8 +44,8 @@ const Menu = () => {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="flex flex-col gap-8">
-        <SheetHeader className="space-y-8">
+      <SheetContent className="flex flex-col gap-8 overflow-y-auto">
+        <SheetHeader className="space-y-8 text-left">
           <div>
             <SheetTitle>Menu</SheetTitle>
             <SheetDescription>Mude a sua sessão por aqui.</SheetDescription>
@@ -57,8 +57,11 @@ const Menu = () => {
               <div className="flex items-center gap-2">
                 <div>
                   {" "}
-                  <Avatar className="w-21 h-12">
-                    <AvatarImage src={data?.user?.image!} />
+                  <Avatar className="h-12 w-12">
+                    <AvatarImage
+                      className="h-12 w-12"
+                      src={data?.user?.image!}
+                    />
                     <AvatarFallback>
                       {" "}
                       <Loading />{" "}
@@ -140,7 +143,6 @@ const Menu = () => {
           onClick={handleSignOut}
           className="w-full gap-2 rounded-lg font-bold"
           variant={"destructive"}
-          size={"sm"}
         >
           <LogOut size={20} />
           <span>Sair</span>
