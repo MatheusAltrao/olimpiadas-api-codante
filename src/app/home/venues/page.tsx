@@ -123,13 +123,16 @@ const Venues = () => {
               .map((discipline, index) => (
                 <TableRow key={discipline.id}>
                   <TableCell>{discipline.id}</TableCell>
-                  <TableCell>{discipline.name}</TableCell>
+                  <TableCell>
+                    {" "}
+                    <span className="truncate">{discipline.name}</span>{" "}
+                  </TableCell>
                   <TableCell>
                     <Link
                       className="underline-offset-8 opacity-70 hover:underline hover:opacity-100"
                       href={discipline.url}
                     >
-                      <span>{discipline.url}</span>
+                      <span className="truncate">{discipline.url}</span>
                     </Link>
                   </TableCell>
                 </TableRow>

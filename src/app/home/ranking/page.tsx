@@ -256,12 +256,6 @@ const Ranking = () => {
             </TableBody>
           </Table>
 
-          {isPending && (
-            <div className="flex items-center justify-center">
-              <Loading />
-            </div>
-          )}
-
           {filteredCountries.length > 0 && !isPending && (
             <Paginator
               first={first}
@@ -274,6 +268,12 @@ const Ranking = () => {
           {inputSearch.length != 0 && filteredCountries.length == 0 && (
             <p className="text-center">Nenhum país com esse nome.</p>
           )}
+        </div>
+      )}
+
+      {isPending && (
+        <div className="flex items-center justify-center">
+          <Loading />
         </div>
       )}
 
