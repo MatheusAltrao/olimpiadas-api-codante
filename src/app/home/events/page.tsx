@@ -87,18 +87,15 @@ const Events = () => {
           const query = new URLSearchParams({
             page: page.toString(),
             gender: ordenedBy || "",
-            date: date ? format(date, "yyyy-MM-dd") : "",
           });
+
+          if (date) {
+            query.append("date", format(date, "yyyy-MM-dd"));
+          }
 
           if (filterByCountry && filterByCountry.toLowerCase() !== "all") {
             query.append("country", filterByCountry);
           }
-
-          query.forEach((value, key) => {
-            if (!value) {
-              query.delete(key);
-            }
-          });
 
           const response = await axios.get(
             `/api/get-events?${query.toString()}`,

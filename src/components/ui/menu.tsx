@@ -141,7 +141,7 @@ const Menu = () => {
 
         <Button
           onClick={handleSignOut}
-          className="w-full gap-2 rounded-lg font-bold"
+          className="w-full gap-2 bg-"
           variant={"destructive"}
         >
           <LogOut size={20} />
