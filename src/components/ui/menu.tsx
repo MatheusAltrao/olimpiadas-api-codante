@@ -24,7 +24,7 @@ import { useState } from "react";
 import DropdownTheme from "../theme/DropdownTheme";
 import { Button } from "../ui/button";
 import ActiveLink from "./activeLink";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+import { Avatar, AvatarImage } from "./avatar";
 import Divider from "./divider";
 import Loading from "./loading";
 
@@ -62,10 +62,6 @@ const Menu = () => {
                       className="h-12 w-12"
                       src={data?.user?.image!}
                     />
-                    <AvatarFallback>
-                      {" "}
-                      <Loading />{" "}
-                    </AvatarFallback>
                   </Avatar>
                 </div>
 
@@ -141,7 +137,7 @@ const Menu = () => {
 
         <Button
           onClick={handleSignOut}
-          className="w-full gap-2 bg-"
+          className="bg- w-full gap-2"
           variant={"destructive"}
         >
           <LogOut size={20} />
